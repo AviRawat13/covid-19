@@ -22,7 +22,7 @@ import kotlin.collections.ArrayList
 class WorldViewModel : ViewModel() {
     private var dataAdapter: DataRecyclerAdapter? = null
     private var refreshLayout: SwipeRefreshLayout? = null
-    private val location: String? = Locale.getDefault().displayCountry.toLowerCase()
+    private val location: String? = Locale.getDefault().displayCountry
     private val localDao: LocalDao = COVIDRoomDatabase.getDatabase(COVID19.context!!).localDao()
 
     fun setUpRecyclerView(recyclerView: RecyclerView) {

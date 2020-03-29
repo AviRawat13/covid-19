@@ -2,9 +2,11 @@ package com.sarath.dev.covid
 
 import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import com.google.gson.GsonBuilder
 import com.sarath.dev.covid.controllers.network.RetrofitService
 import com.sarath.dev.covid.controllers.utils.Constants
+import com.sarath.dev.covid.database.COVIDRoomDatabase
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,6 +16,7 @@ import java.util.concurrent.TimeUnit
 
 
 class COVID19: Application() {
+    private var db: COVIDRoomDatabase? = null
     private var retrofitAdapter: Retrofit? = null
     private var retrofitService: RetrofitService? = null
 

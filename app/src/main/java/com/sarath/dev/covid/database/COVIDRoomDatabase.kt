@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.sarath.dev.covid.COVID19
 import com.sarath.dev.covid.database.dao.CountryDao
 import com.sarath.dev.covid.database.dao.LocalDao
 import com.sarath.dev.covid.database.entity.CountryEntity
@@ -25,9 +26,9 @@ public abstract class COVIDRoomDatabase: RoomDatabase() {
             }
             synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
+                    COVID19.context!!,
                     COVIDRoomDatabase::class.java,
-                    "word_database"
+                    "covid_database"
                 ).build()
                 INSTANCE = instance
                 return instance

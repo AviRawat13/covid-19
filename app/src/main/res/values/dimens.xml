@@ -7,4 +7,7 @@
     <dimen name="view_margin_small">4dp</dimen>
     <dimen name="text_size_normal">14sp</dimen>
     <dimen name="view_padding_small">4dp</dimen>
+    <dimen name="view_margin_normal">16dp</dimen>
+    <dimen name="text_size_xsmall">9sp</dimen>
+    <dimen name="text_size_xnormal">12sp</dimen>
 </resources>

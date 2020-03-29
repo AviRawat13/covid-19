@@ -3,6 +3,7 @@ package com.sarath.dev.covid.controllers.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,7 @@ class DataInfoRecyclerAdapter(var infoItems: ArrayList<Info>?) :
     RecyclerView.Adapter<DataInfoRecyclerAdapter.DataInfoViewHolder>() {
 
     class DataInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var parentLayout: RelativeLayout = itemView.findViewById(R.id.parent_layout)
         var totalCasesTextView: TextView = itemView.findViewById(R.id.total_cases)
         var newCasesTextView: TextView = itemView.findViewById(R.id.new_cases)
         var title: TextView = itemView.findViewById(R.id.title)
@@ -58,7 +60,7 @@ class DataInfoRecyclerAdapter(var infoItems: ArrayList<Info>?) :
                 holder.title.setTextColor(ContextCompat.getColor(COVID19.context!!, android.R.color.holo_red_dark))
             }
             Constants.RECOVERED -> {
-                holder.newCasesTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_arrow_drop_up_green_24dp, 0, 0, 0)
+                holder.newCasesTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_arrow_drop_up_green_16dp, 0, 0, 0)
                 holder.totalCasesTextView.setTextColor(ContextCompat.getColor(COVID19.context!!, android.R.color.holo_green_dark))
                 holder.newCasesTextView.setTextColor(ContextCompat.getColor(COVID19.context!!, android.R.color.holo_green_dark))
                 holder.title.setTextColor(ContextCompat.getColor(COVID19.context!!, android.R.color.holo_green_dark))

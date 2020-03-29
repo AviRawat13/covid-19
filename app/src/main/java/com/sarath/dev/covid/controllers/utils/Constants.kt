@@ -9,7 +9,7 @@ class Constants {
         private const val FLAG_ENDPOINT = "https://www.countryflags.io/"
 
         fun flag(country: String?): String {
-            return "$FLAG_ENDPOINT$country/flat/48.png"
+            return "$FLAG_ENDPOINT$country/flat/64.png"
         }
     }
 }

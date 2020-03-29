@@ -3,11 +3,12 @@ package com.sarath.dev.covid.controllers.utils
 import android.content.Context
 import android.widget.Toast
 import com.sarath.dev.covid.BuildConfig
+import com.sarath.dev.covid.COVID19
 
 class ToastsUtil {
     companion object {
-        fun d(message: String?, context: Context) {
-            if (BuildConfig.DEBUG) l(message, context)
+        fun d(message: String?) {
+            if (BuildConfig.DEBUG) l(message, COVID19.context!!)
         }
 
         fun l(message: String?, context: Context) {

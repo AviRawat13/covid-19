@@ -1,8 +1,14 @@
 package com.sarath.dev.covid
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
-import androidx.room.Room
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
+import android.location.LocationManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.gson.GsonBuilder
 import com.sarath.dev.covid.controllers.network.RetrofitService
 import com.sarath.dev.covid.controllers.utils.Constants
@@ -10,13 +16,15 @@ import com.sarath.dev.covid.database.COVIDRoomDatabase
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 import java.security.KeyManagementException
 import java.security.NoSuchAlgorithmException
+import java.util.*
 import java.util.concurrent.TimeUnit
+import java.util.jar.Manifest
 
 
 class COVID19: Application() {
-    private var db: COVIDRoomDatabase? = null
     private var retrofitAdapter: Retrofit? = null
     private var retrofitService: RetrofitService? = null
 
@@ -27,6 +35,31 @@ class COVID19: Application() {
         fun i(): COVID19 {
             if (instance == null) instance = COVID19()
             return instance!!
+        }
+
+        fun country(): String? {
+            if (ContextCompat.checkSelfPermission(
+                    context!!,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                val locationManager =
+                    (context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager)
+                val lm = locationManager.getLastKnownLocation(locationManager.getProvider("gps").name)
+                val gcd = Geocoder(context!!, Locale.getDefault())
+                val addresses: List<Address>
+                try {
+                    addresses = gcd.getFromLocation(lm.latitude, lm.longitude, 1)
+                    if (addresses.isNotEmpty()) return addresses[0].countryName
+                } catch (e1: IOException) {
+                    e1.printStackTrace()
+                }
+            } else {
+
+                ActivityCompat.requestPermissions(context as Activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), Constants.REQUEST_CODE_LOCATION)
+            }
+
+            return ""
         }
     }
 

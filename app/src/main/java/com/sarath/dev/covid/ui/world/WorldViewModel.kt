@@ -57,7 +57,7 @@ class WorldViewModel : ViewModel() {
                         dataAdapter!!.dataItems!!.add(summaryDataResponse)
 
                         val country = summaryDataResponse.country!!.split("(")[0].toLowerCase()
-                        if (country == location) {
+                        if (country == COVID19.country()) {
                             GlobalScope.launch {
                                 insert(summaryDataResponse)
                             }

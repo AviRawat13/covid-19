@@ -1,14 +1,20 @@
 package com.sarath.dev.covid.ui.world
 
+import android.app.Activity
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.sarath.dev.covid.COVID19
 import com.sarath.dev.covid.R
+import com.sarath.dev.covid.controllers.utils.Constants
 
 class WorldFragment : Fragment() {
     private lateinit var worldViewModel: WorldViewModel

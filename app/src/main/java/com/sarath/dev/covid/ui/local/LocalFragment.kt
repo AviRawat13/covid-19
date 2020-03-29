@@ -42,7 +42,7 @@ class LocalFragment : Fragment() {
 
     }
 
-    private fun setViews(entity: LocalEntity) {
-        ToastsUtil.d(entity.country)
+    private fun setViews(entity: LocalEntity?) {
+        ToastsUtil.d(entity?.country)
     }
 }

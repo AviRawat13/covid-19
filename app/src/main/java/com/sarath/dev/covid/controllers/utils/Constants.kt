@@ -2,6 +2,7 @@ package com.sarath.dev.covid.controllers.utils
 
 class Constants {
     companion object {
+        const val REQUEST_CODE_LOCATION: Int = 1001
         const val CONFIRMED: String = "Confirmed"
         const val RECOVERED: String = "Recovered"
         const val DECEASED: String = "Deceased"

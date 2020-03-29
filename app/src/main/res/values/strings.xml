@@ -5,4 +5,5 @@
     <string name="flag_icon">Flag icon</string>
     <string name="x_cases">%1$s Cases</string>
     <string name="deceased">Deceased</string>
+    <string name="permissions_required">Permissions Required!</string>
 </resources>

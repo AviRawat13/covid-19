@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/view_padding_small"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/total_cases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="@dimen/text_size_normal"
+        tools:text="2463"/>
+
+    <TextView
+        android:id="@+id/new_cases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/ic_arrow_drop_up_red_16dp"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="@dimen/text_size_small"
+        tools:text="2463"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/view_margin_small"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="@dimen/text_size_small"
+        tools:text="Confirmed Cases"/>
+
+</LinearLayout>

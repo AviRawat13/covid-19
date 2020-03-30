@@ -4,7 +4,7 @@
   "description": "Backend Helper Apis",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Sarathisme/covid-19/issues"
   },
-  "homepage": "https://github.com/Sarathisme/covid-19#readme"
+  "homepage": "https://github.com/Sarathisme/covid-19#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2"
+  }
 }

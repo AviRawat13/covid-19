@@ -1,0 +1,19 @@
+{
+  "name": "covid-19",
+  "version": "1.0.0",
+  "description": "Backend Helper Apis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sarathisme/covid-19.git"
+  },
+  "author": "mohan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sarathisme/covid-19/issues"
+  },
+  "homepage": "https://github.com/Sarathisme/covid-19#readme"
+}

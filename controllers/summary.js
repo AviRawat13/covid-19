@@ -4,7 +4,6 @@ const getSummary = (req, res) => {
   // passing a call back to get data from API
   covidSummary((data,error) => {
     if (error){
-      console.log("here");
       return res.status(500).send(
         {"message":"Could not fetch data. Please Try again"}
       );

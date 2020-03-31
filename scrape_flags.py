@@ -12,7 +12,7 @@ data = dict()
 for flag_div in flag_divs:
     paras = flag_div.find_all("p")
     data.update({
-        paras[1].text:paras[0].text
+        paras[1].text:"https://www.countryflags.io/"+paras[0].text+"/flat/64.png"
     })
 
 with open("flag_data.json","w") as f:

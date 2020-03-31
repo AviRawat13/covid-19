@@ -2,7 +2,14 @@ const https = require("https");
 
 const getSummary = (req, res) => {
   // passing a call back to get data from API
-  covidSummary(data => {
+  covidSummary((data,error) => {
+    if (error){
+      console.log("here");
+      return res.status(500).send(
+        {"message":"Could not fetch data. Please Try again"}
+      );
+    }
+
     return res.json(data);
   });
 };
@@ -20,11 +27,12 @@ const covidSummary = callback => {
       res.on("end", function() {
         data = JSON.parse(body);
         data = getAdditionalSummary(data);
-        return callback(data);
+        return callback(data,undefined);
       });
     })
-    .on("error", function(e) {
-      console.log("Got an error: ", e);
+    .on("error", function(error) {
+      console.log("Got an error: ", error);
+      callback(undefined,error)
     });
 
 };

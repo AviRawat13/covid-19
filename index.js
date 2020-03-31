@@ -1,12 +1,8 @@
 const express = require("express");
-
+const getSummary = require("./routes/summary");
 const app = express();
 
-app.get("/api/flaglinks", (req, res) => {
-  var data = require("./flag_data.json");
-  console.log(data);
-  res.json(data);
-});
+app.use("/api",getSummary);
 
 const port = process.env.PORT || 8000;
 app.listen(port, (req, res) => {

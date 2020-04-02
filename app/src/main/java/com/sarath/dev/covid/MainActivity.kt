@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.sarath.dev.covid.controllers.network.country.CountryMapper
 import com.sarath.dev.covid.controllers.utils.Constants
 import com.sarath.dev.covid.controllers.utils.ToastsUtil
 
@@ -23,6 +24,11 @@ class MainActivity : AppCompatActivity() {
         COVID19.context = this
         setContentView(R.layout.activity_main)
         requestPermissions()
+        populateCountries()
+    }
+
+    private fun populateCountries() {
+        CountryMapper().fetchCountries()
     }
 
     private fun initialSetUp() {

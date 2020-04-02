@@ -6,4 +6,7 @@
     <string name="x_cases">%1$s Cases</string>
     <string name="deceased">Deceased</string>
     <string name="permissions_required">Permissions Required!</string>
+    <string name="active_cases">Active Cases</string>
+    <string name="recoveries">Recoveries</string>
+    <string name="deaths">Deaths</string>
 </resources>

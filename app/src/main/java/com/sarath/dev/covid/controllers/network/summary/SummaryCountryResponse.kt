@@ -12,5 +12,7 @@ class SummaryCountryResponse(
     @Expose var newDeaths: Int?, @SerializedName("TotalDeaths")
     @Expose var totalDeaths: Int?, @SerializedName("NewRecovered")
     @Expose var newRecovered: Int?, @SerializedName("TotalRecovered")
-    @Expose var totalRecovered: Int?
+    @Expose var totalRecovered: Int?, @SerializedName("flagURL")
+    @Expose var flagURL: String?, @SerializedName("code")
+    @Expose var code: String?
 )

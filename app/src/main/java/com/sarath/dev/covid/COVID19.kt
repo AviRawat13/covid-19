@@ -10,9 +10,13 @@ import android.location.LocationManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.gson.GsonBuilder
-import com.sarath.dev.covid.controllers.network.RetrofitService
+import com.sarath.dev.covid.controllers.network.COVIDRetrofitService
+import com.sarath.dev.covid.controllers.network.CountryRetrofitService
+import com.sarath.dev.covid.controllers.network.NewsRetrofitService
 import com.sarath.dev.covid.controllers.utils.Constants
 import com.sarath.dev.covid.database.COVIDRoomDatabase
+import com.sarath.dev.covid.database.dao.CountryDao
+import com.sarath.dev.covid.database.dao.LocalDao
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,12 +25,16 @@ import java.security.KeyManagementException
 import java.security.NoSuchAlgorithmException
 import java.util.*
 import java.util.concurrent.TimeUnit
-import java.util.jar.Manifest
 
 
 class COVID19: Application() {
-    private var retrofitAdapter: Retrofit? = null
-    private var retrofitService: RetrofitService? = null
+    private var covidRetrofitAdapter: Retrofit? = null
+    private var countryRetrofitAdapter: Retrofit? = null
+    private var newsRetrofitAdapter: Retrofit? = null
+
+    private var covidRetrofitService: COVIDRetrofitService? = null
+    private var countryRetrofitService: CountryRetrofitService? = null
+    private var newsRetrofitService: NewsRetrofitService? = null
 
     companion object {
         var instance: COVID19? = null
@@ -50,7 +58,7 @@ class COVID19: Application() {
                 val addresses: List<Address>
                 try {
                     addresses = gcd.getFromLocation(lm.latitude, lm.longitude, 1)
-                    if (addresses.isNotEmpty()) return addresses[0].countryName
+                    if (addresses.isNotEmpty()) return addresses[0].countryName.toLowerCase()
                 } catch (e1: IOException) {
                     e1.printStackTrace()
                 }
@@ -61,27 +69,67 @@ class COVID19: Application() {
 
             return ""
         }
+
+        fun localDao(): LocalDao {
+            return COVIDRoomDatabase.getDatabase(context!!).localDao()
+        }
+
+        fun countryDao(): CountryDao {
+            return COVIDRoomDatabase.getDatabase(context!!).countryDao()
+        }
     }
 
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
-        setUpRetrofit()
+        setUpCOVIDRetrofit()
+        setUpCountryRetrofit()
+        setUpNewsRetrofit()
     }
 
-    private fun setUpRetrofit() {
+    private fun setUpCountryRetrofit() {
         val gson = GsonBuilder().setLenient().create()
         val builder: Retrofit.Builder = Retrofit.Builder()
-            .baseUrl(Constants.API_ENDPOINT)
+            .baseUrl(Constants.COUNTRY_API_ENDPOINT)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(getHttpClient()!!)
-        retrofitAdapter = builder.build()
-        retrofitService = retrofitAdapter!!.create(RetrofitService::class.java)
+        countryRetrofitAdapter = builder.build()
+        countryRetrofitService = countryRetrofitAdapter!!.create(CountryRetrofitService::class.java)
     }
 
-    fun service(): RetrofitService {
-        if (retrofitService == null) setUpRetrofit()
-        return retrofitService!!
+    private fun setUpCOVIDRetrofit() {
+        val gson = GsonBuilder().setLenient().create()
+        val builder: Retrofit.Builder = Retrofit.Builder()
+            .baseUrl(Constants.COVID_API_ENDPOINT)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(getHttpClient()!!)
+        covidRetrofitAdapter = builder.build()
+        covidRetrofitService = covidRetrofitAdapter!!.create(COVIDRetrofitService::class.java)
+    }
+
+    private fun setUpNewsRetrofit() {
+        val gson = GsonBuilder().setLenient().create()
+        val builder: Retrofit.Builder = Retrofit.Builder()
+            .baseUrl(Constants.NEWS_API_ENDPOINT)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(getHttpClient()!!)
+        newsRetrofitAdapter = builder.build()
+        newsRetrofitService = newsRetrofitAdapter!!.create(NewsRetrofitService::class.java)
+    }
+
+    fun covidService(): COVIDRetrofitService {
+        if (covidRetrofitService == null) setUpCOVIDRetrofit()
+        return covidRetrofitService!!
+    }
+
+    fun countryService(): CountryRetrofitService {
+        if (countryRetrofitService == null) setUpCountryRetrofit()
+        return countryRetrofitService!!
+    }
+
+    fun newsService(): NewsRetrofitService {
+        if (newsRetrofitService == null) setUpNewsRetrofit()
+        return newsRetrofitService!!
     }
 
     private fun getHttpClient(): OkHttpClient? {

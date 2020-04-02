@@ -14,14 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/view_margin_small"
-        android:layout_marginLeft="@dimen/view_margin_normal"
-        android:layout_marginRight="@dimen/view_margin_normal"
+        android:layout_marginLeft="@dimen/view_margin_small"
+        android:layout_marginRight="@dimen/view_margin_small"
         android:textSize="@dimen/text_size_xnormal"
         android:textStyle="bold"
         android:textAllCaps="true"
         android:textColor="@android:color/black"
         tools:text="Afghanistan"/>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,21 +29,18 @@
 
         <ImageView
             android:id="@+id/flag_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/view_margin_small"
-            android:layout_marginBottom="@dimen/view_margin_small"
-            android:layout_marginStart="@dimen/view_margin_normal"
-            android:layout_marginEnd="@dimen/view_margin_normal"
-            android:contentDescription="@string/flag_icon"
-            tools:src="@drawable/ic_home_black_24dp" />
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/view_margin_normal"
+            android:layout_marginRight="@dimen/view_margin_normal"
+            android:layout_gravity="center"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/info_recycler_view"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/view_margin_small"
+            android:layout_marginRight="@dimen/view_margin_small"
             android:orientation="vertical"
             app:spanCount="3"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>

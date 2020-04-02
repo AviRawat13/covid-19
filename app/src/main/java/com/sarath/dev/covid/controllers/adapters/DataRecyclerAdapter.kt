@@ -8,16 +8,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sarath.dev.covid.R
 import com.sarath.dev.covid.COVID19
+import com.sarath.dev.covid.MainActivity
 import com.sarath.dev.covid.controllers.network.summary.SummaryCountryResponse
 import com.sarath.dev.covid.controllers.utils.Constants
 import com.sarath.dev.covid.controllers.utils.Info
 import com.squareup.picasso.Picasso
+import java.util.*
+import kotlin.collections.ArrayList
 
 class DataRecyclerAdapter(var dataItems: ArrayList<SummaryCountryResponse>?) :
     RecyclerView.Adapter<DataRecyclerAdapter.DataViewHolder>() {
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var flagImage: ImageView = itemView.findViewById(R.id.flag_image)
+        var flagImage = itemView.findViewById<ImageView>(R.id.flag_image)!!
         var countryName: TextView = itemView.findViewById(R.id.country_name)
         var infoRecyclerView: RecyclerView = itemView.findViewById(R.id.info_recycler_view)
         var infoAdapter: DataInfoRecyclerAdapter = DataInfoRecyclerAdapter(null)
@@ -42,9 +45,9 @@ class DataRecyclerAdapter(var dataItems: ArrayList<SummaryCountryResponse>?) :
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val data = dataItems!![position]
-        holder.countryName.text = data.country
+        holder.countryName.text = data.country!!.split("(")[0]
 
-        Picasso.with(COVID19.context).load(Constants.flag("IN")).into(holder.flagImage)
+        if (!data.flagURL.isNullOrEmpty()) Picasso.with(COVID19.context).load(data.flagURL).into(holder.flagImage)
 
         when {
             holder.infoAdapter.infoItems != null -> {

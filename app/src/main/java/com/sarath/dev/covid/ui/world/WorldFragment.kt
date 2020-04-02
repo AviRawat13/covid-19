@@ -27,6 +27,7 @@ class WorldFragment : Fragment() {
         worldViewModel =
             ViewModelProviders.of(this).get(WorldViewModel::class.java)
 
+        activity?.setTheme(R.style.AppTheme)
         val root = inflater.inflate(R.layout.fragment_world, container, false)
         val refreshLayout = root.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
         val recyclerView = root.findViewById<RecyclerView>(R.id.world_recycler_view)

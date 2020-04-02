@@ -15,4 +15,8 @@ class LocalViewModel : ViewModel() {
         dataAdapter = DataRecyclerAdapter(null)
         recyclerView.adapter = dataAdapter
     }
+
+    fun fetchData() {
+
+    }
 }

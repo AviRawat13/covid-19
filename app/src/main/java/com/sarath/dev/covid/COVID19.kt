@@ -6,7 +6,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.location.LocationManager
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.gson.GsonBuilder
@@ -20,7 +22,6 @@ import com.sarath.dev.covid.database.dao.LocalDao
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 import java.security.KeyManagementException
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -51,15 +52,23 @@ class COVID19: Application() {
                     android.Manifest.permission.ACCESS_FINE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                val locationManager =
-                    (context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager)
-                val lm = locationManager.getLastKnownLocation(locationManager.getProvider("gps").name)
+                val locationManager = (context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager)
+                var lm: Location? = null
+                var bestLocation: Location? = null
+                for (provider in locationManager.allProviders) {
+                    lm = locationManager.getLastKnownLocation(provider)
+                    if (lm == null) continue
+                    if (bestLocation == null || lm.accuracy < bestLocation.accuracy) {
+                        bestLocation = lm
+                    }
+                }
+
                 val gcd = Geocoder(context!!, Locale.getDefault())
                 val addresses: List<Address>
                 try {
-                    addresses = gcd.getFromLocation(lm.latitude, lm.longitude, 1)
+                    addresses = gcd.getFromLocation(lm!!.latitude, lm!!.longitude, 1)
                     if (addresses.isNotEmpty()) return addresses[0].countryName.toLowerCase()
-                } catch (e1: IOException) {
+                } catch (e1: Exception) {
                     e1.printStackTrace()
                 }
             } else {

@@ -5,5 +5,6 @@ class Endpoints {
         const val SUMMARY = "summary"
         const val COUNTRY_CODE = "names.json"
         const val LIVE_DATA = "live/country/"
+        const val NEWS = "top-headlines"
     }
 }

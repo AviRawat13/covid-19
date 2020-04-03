@@ -50,8 +50,10 @@ class MainActivity : AppCompatActivity() {
         navView.setOnNavigationItemSelectedListener{
                 menuItem ->
             if (menuItem.itemId == R.id.navigation_world) {
+                supportActionBar?.title = getString(R.string.title_world)
                 navController.navigate(R.id.navigation_world)
             } else if (menuItem.itemId == R.id.navigation_local) {
+                supportActionBar?.title = COVID19.country()
                 navController.navigate(R.id.navigation_local)
             }
 

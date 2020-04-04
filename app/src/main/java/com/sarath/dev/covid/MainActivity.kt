@@ -5,9 +5,11 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.WindowManager
+import android.text.SpannableString
+import android.text.style.URLSpan
+import android.view.*
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,10 +22,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sarath.dev.covid.controllers.network.country.CountryMapper
 import com.sarath.dev.covid.controllers.utils.Constants
 import com.sarath.dev.covid.controllers.utils.ToastsUtil
+import java.net.URL
 
 
 class MainActivity : AppCompatActivity() {
     private var requested = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +70,56 @@ class MainActivity : AppCompatActivity() {
 
             true
         }
+    }
+
+    private fun setUpAboutDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
+        val viewGroup = findViewById<ViewGroup>(R.id.content)
+        val dialogView: View =
+            LayoutInflater.from(this).inflate(R.layout.layout_about_page, viewGroup, false)
+        builder.setView(dialogView)
+        setUpDialogViews(dialogView)
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    private fun setUpDialogViews(root: View) {
+        val developedByTextView = root.findViewById<TextView>(R.id.developed_by)
+        val apiBy = root.findViewById<TextView>(R.id.api_data_from)
+        val newsFrom = root.findViewById<TextView>(R.id.news_data_from)
+
+        setDevelopedBySpannable(developedByTextView, "Developed by: Sarath Sattiraju, Mohan Krishna Kosetty")
+        setApiBySpannable(apiBy, "Api From: Postman")
+        setNewsBySpannable(newsFrom, "News from: News API")
+    }
+
+    private fun setApiBySpannable(view: View, total: String) {
+        val spannableString = SpannableString(total)
+
+        val postmanIndex = total.indexOf("Postman")
+        spannableString.setSpan(URLSpan("https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwiUwaTNiM7oAhVHwzgGHfw4DAkQFjAAegQIAhAB&url=https%3A%2F%2Fcovid-19-apis.postman.com%2F&usg=AOvVaw1n9bHnBzZFWh8ut1NGyVz9"),
+                                    postmanIndex, postmanIndex + "Postman".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        (view as TextView).text = spannableString
+    }
+
+    private fun setNewsBySpannable(view: View, total: String) {
+        val spannableString = SpannableString(total)
+
+        val newsApiOrg = total.indexOf("News API")
+        spannableString.setSpan(URLSpan("https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjYkIaBic7oAhV_yTgGHXvdA-sQFjAAegQIBxAC&url=https%3A%2F%2Fnewsapi.org%2F&usg=AOvVaw1EzrrF35KRt_5CLONmtNet"),
+                                newsApiOrg, newsApiOrg + "News API".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        (view as TextView).text = spannableString
+    }
+
+    private fun setDevelopedBySpannable(view: View, total: String) {
+        val spannableString = SpannableString(total)
+
+        val sarathNameIndex = total.indexOf("Sarath Sattiraju")
+        val mohanNameIndex = total.indexOf("Mohan Krishna Kosetty")
+        spannableString.setSpan(URLSpan("https://www.linkedin.com/in/sarath-sattiraju/"), sarathNameIndex, sarathNameIndex + "Sarath Sattiraju".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(URLSpan("https://www.linkedin.com/in/mohan-krishna-888689b7/"), mohanNameIndex, mohanNameIndex + "Mohan Krishna Kosetty".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        (view as TextView).text = spannableString
     }
 
     private fun setActionBar(isLocal: Boolean) {
@@ -121,7 +175,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.about) {
-            ToastsUtil.d("Here")
+            setUpAboutDialog()
             return true
         }
 

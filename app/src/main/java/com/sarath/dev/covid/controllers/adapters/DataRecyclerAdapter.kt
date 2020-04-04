@@ -47,7 +47,12 @@ class DataRecyclerAdapter(var dataItems: ArrayList<SummaryCountryResponse>?) :
         val data = dataItems!![position]
         holder.countryName.text = data.country!!.split("(")[0]
 
-        if (!data.flagURL.isNullOrEmpty()) Picasso.with(COVID19.context).load(data.flagURL).into(holder.flagImage)
+        if (!data.flagURL.isNullOrEmpty()) {
+            holder.flagImage.visibility = View.VISIBLE
+            Picasso.with(COVID19.context).load(data.flagURL).into(holder.flagImage)
+        } else {
+            holder.flagImage.visibility = View.GONE
+        }
 
         when {
             holder.infoAdapter.infoItems != null -> {

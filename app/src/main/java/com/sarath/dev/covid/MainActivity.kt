@@ -2,8 +2,12 @@ package com.sarath.dev.covid
 
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.view.Menu
+import android.view.MenuItem
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -12,9 +16,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sarath.dev.covid.controllers.network.country.CountryMapper
 import com.sarath.dev.covid.controllers.utils.Constants
 import com.sarath.dev.covid.controllers.utils.ToastsUtil
+
 
 class MainActivity : AppCompatActivity() {
     private var requested = false
@@ -44,20 +50,34 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         setUpCallback(navView, navController)
+        setActionBar(false)
     }
 
     private fun setUpCallback(navView: BottomNavigationView, navController: NavController) {
         navView.setOnNavigationItemSelectedListener{
                 menuItem ->
             if (menuItem.itemId == R.id.navigation_world) {
-                supportActionBar?.title = getString(R.string.title_world)
+                setActionBar(false)
                 navController.navigate(R.id.navigation_world)
             } else if (menuItem.itemId == R.id.navigation_local) {
-                supportActionBar?.title = COVID19.country()
+                setActionBar(true)
                 navController.navigate(R.id.navigation_local)
             }
 
             true
+        }
+    }
+
+    private fun setActionBar(isLocal: Boolean) {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        if (isLocal) {
+            supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#311b92")))
+            window.statusBarColor = Color.parseColor("#000063")
+        } else {
+            supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#e57373")))
+            window.statusBarColor = Color.parseColor("#af4448")
         }
     }
 
@@ -91,6 +111,21 @@ class MainActivity : AppCompatActivity() {
                 initialSetUp()
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_options, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.about) {
+            ToastsUtil.d("Here")
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {

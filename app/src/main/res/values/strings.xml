@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">COVID-19</string>
     <string name="title_world">World</string>
-    <string name="title_local">Local</string>
+    <string name="title_local">Your Country</string>
     <string name="flag_icon">Flag icon</string>
     <string name="x_cases">%1$s Cases</string>
     <string name="deceased">Deceased</string>
@@ -9,4 +9,5 @@
     <string name="active_cases">Active Cases</string>
     <string name="recoveries">Recoveries</string>
     <string name="deaths">Deaths</string>
+    <string name="about">About</string>
 </resources>

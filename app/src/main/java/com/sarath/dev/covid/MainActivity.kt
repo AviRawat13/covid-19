@@ -1,11 +1,14 @@
 package com.sarath.dev.covid
 
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
+import android.text.style.ClickableSpan
 import android.text.style.URLSpan
 import android.view.*
 import android.widget.TextView
@@ -99,6 +102,12 @@ class MainActivity : AppCompatActivity() {
         val postmanIndex = total.indexOf("Postman")
         spannableString.setSpan(URLSpan("https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwiUwaTNiM7oAhVHwzgGHfw4DAkQFjAAegQIAhAB&url=https%3A%2F%2Fcovid-19-apis.postman.com%2F&usg=AOvVaw1n9bHnBzZFWh8ut1NGyVz9"),
                                     postmanIndex, postmanIndex + "Postman".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(object: ClickableSpan() {
+            override fun onClick(widget: View) {
+                navigateToUrl("https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwiUwaTNiM7oAhVHwzgGHfw4DAkQFjAAegQIAhAB&url=https%3A%2F%2Fcovid-19-apis.postman.com%2F&usg=AOvVaw1n9bHnBzZFWh8ut1NGyVz9")
+            }
+
+        }, postmanIndex, postmanIndex + "Postman".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
         (view as TextView).text = spannableString
     }
 
@@ -108,6 +117,12 @@ class MainActivity : AppCompatActivity() {
         val newsApiOrg = total.indexOf("News API")
         spannableString.setSpan(URLSpan("https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjYkIaBic7oAhV_yTgGHXvdA-sQFjAAegQIBxAC&url=https%3A%2F%2Fnewsapi.org%2F&usg=AOvVaw1EzrrF35KRt_5CLONmtNet"),
                                 newsApiOrg, newsApiOrg + "News API".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(object: ClickableSpan() {
+            override fun onClick(widget: View) {
+                navigateToUrl("https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjYkIaBic7oAhV_yTgGHXvdA-sQFjAAegQIBxAC&url=https%3A%2F%2Fnewsapi.org%2F&usg=AOvVaw1EzrrF35KRt_5CLONmtNet")
+            }
+
+        }, newsApiOrg, newsApiOrg + "News API".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         (view as TextView).text = spannableString
     }
@@ -118,8 +133,27 @@ class MainActivity : AppCompatActivity() {
         val sarathNameIndex = total.indexOf("Sarath Sattiraju")
         val mohanNameIndex = total.indexOf("Mohan Krishna Kosetty")
         spannableString.setSpan(URLSpan("https://www.linkedin.com/in/sarath-sattiraju/"), sarathNameIndex, sarathNameIndex + "Sarath Sattiraju".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(object: ClickableSpan() {
+            override fun onClick(widget: View) {
+                navigateToUrl("https://www.linkedin.com/in/sarath-sattiraju/")
+            }
+
+        }, sarathNameIndex, sarathNameIndex + "Sarath Sattiraju".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+
         spannableString.setSpan(URLSpan("https://www.linkedin.com/in/mohan-krishna-888689b7/"), mohanNameIndex, mohanNameIndex + "Mohan Krishna Kosetty".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(object: ClickableSpan() {
+            override fun onClick(widget: View) {
+                navigateToUrl("https://www.linkedin.com/in/mohan-krishna-888689b7/")
+            }
+
+        }, mohanNameIndex, mohanNameIndex + "Mohan Krishna Kosetty".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
         (view as TextView).text = spannableString
+    }
+
+    private fun navigateToUrl(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 
     private fun setActionBar(isLocal: Boolean) {

@@ -6,6 +6,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 28
     buildToolsVersion "29.0.2"
@@ -53,9 +55,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.1.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation 'com.squareup.okio:okio:2.2.2'
-    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.google.firebase:firebase-messaging:20.1.5'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation "androidx.room:room-runtime:$rootProject.room_version"
     implementation "androidx.room:room-ktx:$rootProject.room_version"
     kapt "androidx.room:room-compiler:$rootProject.room_version"

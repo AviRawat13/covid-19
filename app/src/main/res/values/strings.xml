@@ -10,4 +10,6 @@
     <string name="recoveries">Recoveries</string>
     <string name="deaths">Deaths</string>
     <string name="about">About</string>
+    <string name="channel_id">covid19-channel</string>
+    <string name="channel_name">covid19</string>
 </resources>

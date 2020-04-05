@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -13,12 +14,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.sarath.dev.covid.COVID19
+import com.sarath.dev.covid.MainActivity
 import com.sarath.dev.covid.R
 import com.sarath.dev.covid.controllers.network.live.LiveDataResponse
 import com.sarath.dev.covid.controllers.network.live.LiveMappper
 import com.sarath.dev.covid.controllers.utils.GeneralUtil
 import com.sarath.dev.covid.controllers.utils.ToastsUtil
 import com.sarath.dev.covid.database.entity.CountryEntity
+import com.sarath.dev.covid.database.entity.LocalEntity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -94,9 +99,15 @@ class LocalFragment : Fragment() {
 
         })
 
-        COVID19.countryDao().getCode(COVID19.country()).observe(this, Observer {
+        COVID19.countryDao().getCode(COVID19.country()).observe(COVID19.context as MainActivity, Observer {
             if (!it.isNullOrEmpty()) localViewModel.fetchData(it[0].toLowerCase(), refreshLayout)
         })
+    }
+
+    private fun insertIntoDB(data: LocalEntity) {
+        GlobalScope.launch {
+            COVID19.localDao().insert(localEntity = data)
+        }
     }
 
     private fun setViews(data: List<LiveDataResponse>?) {
@@ -108,19 +119,52 @@ class LocalFragment : Fragment() {
                 if (!response.date.isNullOrEmpty() && response.date == latestTimestamp) latestLiveData.add(response)
             }
 
+            var active: Int? = 0
+            var recovered: Int? = 0
+            var deceased: Int? = 0
+
             for (latest in latestLiveData) {
                 when (latest.status) {
                     "confirmed" -> {
+                        active = latest.cases
                         confirmedCases.text = latest.cases.toString()
                     }
                     "recovered" -> {
+                        recovered = latest.cases
                         recoveredCases.text = latest.cases.toString()
                     }
                     "deaths" -> {
+                        deceased = latest.cases
                         deaths.text = latest.cases.toString()
                     }
                 }
             }
+
+
+            insertIntoDB(
+                LocalEntity(
+                    1,
+                    COVID19.country(),
+                    null,
+                    active,
+                    0,
+                    recovered,
+                    0,
+                    deceased,
+                    0)
+            )
+        } else {
+            COVID19.localDao().getLocalData().observe(COVID19.context as MainActivity, Observer {
+                if (!it.isNullOrEmpty()) {
+                    confirmedCases.text = it[0].totalConfirmed.toString()
+                    recoveredCases.text = it[0].totalRecovered.toString()
+                    deaths.text = it[0].totalDeceased.toString()
+                } else {
+                    confirmedCases.text = "0"
+                    recoveredCases.text = "0"
+                    deaths.text = "0"
+                }
+            })
         }
     }
 }

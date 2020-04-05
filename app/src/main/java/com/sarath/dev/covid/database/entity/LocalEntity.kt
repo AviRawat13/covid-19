@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "local")
 class LocalEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) var id: Int?,
     @ColumnInfo(name = "country") var country: String?,
     @ColumnInfo(name = "country_slug") var countrySlug: String?,
     @ColumnInfo(name = "total_confirmed") var totalConfirmed: Int?,
@@ -15,4 +15,7 @@ class LocalEntity(
     @ColumnInfo(name = "new_recovered") var newRecovered: Int?,
     @ColumnInfo(name = "total_deceased") var totalDeceased: Int?,
     @ColumnInfo(name = "new_deceased") var newDeceased: Int?
-)
+) {
+
+}
+

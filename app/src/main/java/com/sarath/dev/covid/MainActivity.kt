@@ -30,14 +30,15 @@ import com.sarath.dev.covid.controllers.utils.ToastsUtil
 
 class MainActivity : AppCompatActivity() {
     private var requested = false
+    private lateinit var navController: NavController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         COVID19.context = this
         setContentView(R.layout.activity_main)
-        requestPermissions()
         populateCountries()
+        initialSetUp()
     }
 
     private fun populateCountries() {
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initialSetUp() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
@@ -67,12 +68,16 @@ class MainActivity : AppCompatActivity() {
                 setActionBar(false)
                 navController.navigate(R.id.navigation_world)
             } else if (menuItem.itemId == R.id.navigation_local) {
-                setActionBar(true)
-                navController.navigate(R.id.navigation_local)
+                requestPermissions()
             }
 
             true
         }
+    }
+
+    private fun setLocalFragment() {
+        setActionBar(true)
+        navController.navigate(R.id.navigation_local)
     }
 
     private fun setUpAboutDialog() {
@@ -91,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         val apiBy = root.findViewById<TextView>(R.id.api_data_from)
         val newsFrom = root.findViewById<TextView>(R.id.news_data_from)
 
-        setDevelopedBySpannable(developedByTextView, "Developed by: Sarath Sattiraju, Mohan Krishna Kosetty")
+        setDevelopedBySpannable(developedByTextView, "Developed by: Sarath Sattiraju, Mohan Krishna Kosetti")
         setApiBySpannable(apiBy, "Api From: Postman")
         setNewsBySpannable(newsFrom, "News from: News API")
     }
@@ -139,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         val spannableString = SpannableString(total)
 
         val sarathNameIndex = total.indexOf("Sarath Sattiraju")
-        val mohanNameIndex = total.indexOf("Mohan Krishna Kosetty")
+        val mohanNameIndex = total.indexOf("Mohan Krishna Kosetti")
         spannableString.setSpan(object: ClickableSpan() {
             override fun onClick(widget: View) {
                 navigateToUrl("https://www.linkedin.com/in/sarath-sattiraju/")
@@ -162,7 +167,7 @@ class MainActivity : AppCompatActivity() {
                 ds.isUnderlineText = true
             }
 
-        }, mohanNameIndex, mohanNameIndex + "Mohan Krishna Kosetty".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }, mohanNameIndex, mohanNameIndex + "Mohan Krishna Kosetti".length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
         (view as TextView).text = spannableString
         view.movementMethod = LinkMovementMethod.getInstance()
     }
@@ -178,9 +183,11 @@ class MainActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         if (isLocal) {
+            supportActionBar?.title = COVID19.country()
             supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#311b92")))
             window.statusBarColor = Color.parseColor("#000063")
         } else {
+            supportActionBar?.title = "World"
             supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#e57373")))
             window.statusBarColor = Color.parseColor("#af4448")
         }
@@ -198,7 +205,7 @@ class MainActivity : AppCompatActivity() {
             requested = true
             ActivityCompat.requestPermissions(COVID19.context as Activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), Constants.REQUEST_CODE_LOCATION)
         } else {
-            initialSetUp()
+            setLocalFragment()
         }
     }
 
@@ -213,7 +220,7 @@ class MainActivity : AppCompatActivity() {
             if (grantResults.isNotEmpty()
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED
             ) {
-                initialSetUp()
+                setLocalFragment()
             }
         }
     }

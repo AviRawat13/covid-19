@@ -116,7 +116,9 @@ class LocalFragment : Fragment() {
             val latestLiveData = ArrayList<LiveDataResponse>()
 
             for (response in data) {
-                if (!response.date.isNullOrEmpty() && response.date == latestTimestamp) latestLiveData.add(response)
+                if (!response.date.isNullOrEmpty() && response.date == latestTimestamp) latestLiveData.add(
+                    response
+                )
             }
 
             var active: Int? = 0
@@ -139,28 +141,6 @@ class LocalFragment : Fragment() {
                     }
                 }
             }
-
-
-            insertIntoDB(
-                LocalEntity(
-                    1,
-                    COVID19.country(),
-                    null,
-                    active,
-                    0,
-                    recovered,
-                    0,
-                    deceased,
-                    0)
-            )
-        } else {
-            COVID19.localDao().getLocalData().observe(COVID19.context as MainActivity, Observer {
-                if (!it.isNullOrEmpty()) {
-                    confirmedCases.text = it[0].totalConfirmed.toString()
-                    recoveredCases.text = it[0].totalRecovered.toString()
-                    deaths.text = it[0].totalDeceased.toString()
-                }
-            })
         }
     }
 }

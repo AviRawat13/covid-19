@@ -159,10 +159,6 @@ class LocalFragment : Fragment() {
                     confirmedCases.text = it[0].totalConfirmed.toString()
                     recoveredCases.text = it[0].totalRecovered.toString()
                     deaths.text = it[0].totalDeceased.toString()
-                } else {
-                    confirmedCases.text = "0"
-                    recoveredCases.text = "0"
-                    deaths.text = "0"
                 }
             })
         }

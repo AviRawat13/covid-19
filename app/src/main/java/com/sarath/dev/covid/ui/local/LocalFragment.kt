@@ -121,22 +121,15 @@ class LocalFragment : Fragment() {
                 )
             }
 
-            var active: Int? = 0
-            var recovered: Int? = 0
-            var deceased: Int? = 0
-
             for (latest in latestLiveData) {
                 when (latest.status) {
                     "confirmed" -> {
-                        active = latest.cases
                         confirmedCases.text = latest.cases.toString()
                     }
                     "recovered" -> {
-                        recovered = latest.cases
                         recoveredCases.text = latest.cases.toString()
                     }
                     "deaths" -> {
-                        deceased = latest.cases
                         deaths.text = latest.cases.toString()
                     }
                 }

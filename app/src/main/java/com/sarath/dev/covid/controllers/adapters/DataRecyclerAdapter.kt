@@ -51,7 +51,7 @@ class DataRecyclerAdapter(var dataItems: ArrayList<SummaryCountryResponse>?) :
             holder.flagImage.visibility = View.VISIBLE
             Picasso.with(COVID19.context).load(data.flagURL).into(holder.flagImage)
         } else {
-            holder.flagImage.visibility = View.GONE
+            holder.flagImage.visibility = View.INVISIBLE
         }
 
         when {

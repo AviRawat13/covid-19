@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
@@ -65,8 +66,7 @@ class MainActivity : AppCompatActivity() {
         navView.setOnNavigationItemSelectedListener{
                 menuItem ->
             if (menuItem.itemId == R.id.navigation_world) {
-                setActionBar(false)
-                navController.navigate(R.id.navigation_world)
+                setWorldFragment()
             } else if (menuItem.itemId == R.id.navigation_local) {
                 requestPermissions()
             }
@@ -75,9 +75,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setWorldFragment() {
+        setActionBar(false)
+        navController.navigate(R.id.navigation_world)
+    }
+
     private fun setLocalFragment() {
-        setActionBar(true)
-        navController.navigate(R.id.navigation_local)
+        if (!COVID19.country().isNullOrEmpty()) {
+            setActionBar(true)
+            navController.popBackStack(R.id.navigation_world, true);
+            navController.navigate(R.id.navigation_local)
+        } else {
+            buildAlertMessageNoGps()
+        }
+    }
+
+    private fun buildAlertMessageNoGps() {
+        val builder = android.app.AlertDialog.Builder(COVID19.context!!)
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+            .setCancelable(false)
+            .setPositiveButton(
+                "Yes"
+            ) { _, _ -> (COVID19.context!! as MainActivity).startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                setWorldFragment()
+            }
+            .setNegativeButton(
+                "No"
+            ) { dialog, _ -> dialog.cancel()
+                setWorldFragment()
+            }
+        val alert: android.app.AlertDialog = builder.create()
+        alert.show()
     }
 
     private fun setUpAboutDialog() {
@@ -238,6 +266,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
     override fun onResume() {

@@ -24,11 +24,19 @@ class LiveDataResponse {
     @Expose
     var long: Double? = null
 
-    @SerializedName("Cases")
+    @SerializedName("Confirmed")
     @Expose
-    var cases: Int? = null
+    var confirmed: Int? = null
 
-    @SerializedName("Status")
+    @SerializedName("Recovered")
     @Expose
-    var status: String? = null
+    var recovered: Int? = null
+
+    @SerializedName("Deaths")
+    @Expose
+    var deaths: Int? = null
+
+    @SerializedName("Active")
+    @Expose
+    var active: Int? = null
 }

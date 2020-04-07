@@ -1,14 +1,15 @@
 package com.sarath.dev.covid
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Application
+import android.app.AlertDialog.Builder
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.gson.GsonBuilder
@@ -27,6 +28,8 @@ import java.security.NoSuchAlgorithmException
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
 
 class COVID19: Application() {
     private var covidRetrofitAdapter: Retrofit? = null

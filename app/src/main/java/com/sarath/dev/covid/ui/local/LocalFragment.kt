@@ -49,6 +49,7 @@ class LocalFragment : Fragment() {
             ViewModelProviders.of(this).get(LocalViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_local, container, false)
         val recyclerView = root.findViewById<RecyclerView>(R.id.local_recycler_view)
+        retainInstance = true
         initializeViews(root)
         recyclerView.addOnScrollListener(scrollListener)
         localViewModel.setUpRecyclerView(recyclerView)
@@ -104,12 +105,6 @@ class LocalFragment : Fragment() {
         })
     }
 
-    private fun insertIntoDB(data: LocalEntity) {
-        GlobalScope.launch {
-            COVID19.localDao().insert(localEntity = data)
-        }
-    }
-
     private fun setViews(data: List<LiveDataResponse>?) {
         if (!data.isNullOrEmpty()) {
             val latestTimestamp = data[data.size - 1].date
@@ -122,17 +117,9 @@ class LocalFragment : Fragment() {
             }
 
             for (latest in latestLiveData) {
-                when (latest.status) {
-                    "confirmed" -> {
-                        confirmedCases.text = latest.cases.toString()
-                    }
-                    "recovered" -> {
-                        recoveredCases.text = latest.cases.toString()
-                    }
-                    "deaths" -> {
-                        deaths.text = latest.cases.toString()
-                    }
-                }
+                confirmedCases.text = latest.confirmed.toString()
+                recoveredCases.text = latest.recovered.toString()
+                deaths.text = latest.deaths.toString()
             }
         }
     }
